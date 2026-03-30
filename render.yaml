@@ -26,7 +26,7 @@ services:
       - key: JWT_EXPIRES_IN
         value: 8h
       - key: CORS_ORIGIN
-        sync: false
+        value: https://project-business-case-web.onrender.com
 
   - type: static_site
     name: project-business-case-web
@@ -41,4 +41,4 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_BASE_URL
-        sync: false
+        value: https://project-business-case-api.onrender.com

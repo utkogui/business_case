@@ -68,3 +68,4 @@ npm run dev
 
 - Deploy no Render (Blueprint): veja `DEPLOY_RENDER.md`
 - Arquivo de infraestrutura do Render: `render.yaml`
+- Modo atual: envs automaticos via `render.yaml` (sem preenchimento manual no painel)

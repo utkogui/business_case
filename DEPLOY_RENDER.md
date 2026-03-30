@@ -18,17 +18,14 @@ Este projeto esta preparado para deploy usando Blueprint do Render via `render.y
    - Frontend Static Site: `project-business-case-web`
 5. O frontend ja possui rewrite SPA no `render.yaml` (`/* -> /index.html`) para rotas do React Router funcionarem em refresh/acesso direto.
 
-## 3) Configurar variaveis obrigatorias
+## 3) Variaveis de ambiente
 
-Depois da primeira criacao, configure:
+O `render.yaml` ja esta configurado no modo automatico (Opcao A):
 
-### API (`project-business-case-api`)
+- `CORS_ORIGIN=https://project-business-case-web.onrender.com`
+- `VITE_API_BASE_URL=https://project-business-case-api.onrender.com`
 
-- `CORS_ORIGIN`: URL do frontend no Render (exemplo: `https://project-business-case-web.onrender.com`)
-
-### Frontend (`project-business-case-web`)
-
-- `VITE_API_BASE_URL`: URL da API no Render (exemplo: `https://project-business-case-api.onrender.com`)
+Se voce alterar o nome dos servicos no Render, atualize essas URLs no `render.yaml`.
 
 ## 4) Deploy e migracoes
 
