@@ -63,3 +63,8 @@ npm run dev
 - Fase 5 concluida: calculos centralizados de business case no backend, `GET /api/projects/:id/business-case` e `GET /api/dashboard/overview`
 - Fase 6 concluida: dashboard geral com filtros e KPIs, tela detalhada de business case por projeto com graficos/tabelas
 - Fase 7 concluida: refino visual, padronizacao de componentes de apresentacao, estados de loading/erro/vazio e revisao final
+
+## Deploy
+
+- Deploy no Render (Blueprint): veja `DEPLOY_RENDER.md`
+- Arquivo de infraestrutura do Render: `render.yaml`
