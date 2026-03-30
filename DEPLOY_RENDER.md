@@ -16,6 +16,7 @@ Este projeto esta preparado para deploy usando Blueprint do Render via `render.y
    - Banco Postgres: `project-business-case-db`
    - API Node: `project-business-case-api`
    - Frontend Static Site: `project-business-case-web`
+5. O frontend ja possui rewrite SPA no `render.yaml` (`/* -> /index.html`) para rotas do React Router funcionarem em refresh/acesso direto.
 
 ## 3) Configurar variaveis obrigatorias
 
