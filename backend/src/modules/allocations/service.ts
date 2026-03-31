@@ -7,6 +7,7 @@ type AllocationPayload = {
   areaId?: string;
   plannedHours?: number;
   actualHours?: number;
+  professionalEvaluation?: number | null;
   notes?: string | null;
 };
 
@@ -61,6 +62,7 @@ export async function createAllocation(projectId: string, payload: AllocationPay
       hourlyCostSnapshot,
       plannedCost: round2(plannedHours * Number(hourlyCostSnapshot)),
       actualCost: round2(actualHours * Number(hourlyCostSnapshot)),
+      professionalEvaluation: payload.professionalEvaluation ?? null,
       notes: payload.notes ?? null,
     },
     include: {
@@ -97,6 +99,7 @@ export async function updateAllocation(projectId: string, allocationId: string, 
       hourlyCostSnapshot,
       plannedCost: round2(plannedHours * Number(hourlyCostSnapshot)),
       actualCost: round2(actualHours * Number(hourlyCostSnapshot)),
+      professionalEvaluation: payload.professionalEvaluation,
       notes: payload.notes,
     },
     include: {

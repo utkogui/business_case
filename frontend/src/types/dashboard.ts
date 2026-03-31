@@ -102,5 +102,6 @@ export type ProjectBusinessCaseResponse = {
     hourlyCostSnapshot: number;
     plannedCost: number;
     actualCost: number;
+    averageEvaluation: number | null;
   }>;
 };

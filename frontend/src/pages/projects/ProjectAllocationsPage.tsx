@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Button, Card, Form, Input, InputNumber, Modal, Popconfirm, Select, Space, Table, Typography, message } from 'antd';
+import { Button, Card, Form, Input, InputNumber, Modal, Popconfirm, Rate, Select, Space, Table, Typography, message } from 'antd';
 import type { Allocation } from '../../types/entities';
 import { createAllocation, deleteAllocation, getAllocations, updateAllocation } from '../../services/allocations';
 import { getProfessionals } from '../../services/professionals';
@@ -15,6 +15,7 @@ type AllocationFormValues = {
   areaId?: string;
   plannedHours: number;
   actualHours: number;
+  professionalEvaluation?: number;
   notes?: string;
 };
 
@@ -88,6 +89,11 @@ export function ProjectAllocationsPage() {
     { title: 'Area', key: 'area', render: (_: unknown, record: Allocation) => record.area?.name ?? '-' },
     { title: 'Horas Planejadas', key: 'plannedHours', render: (_: unknown, record: Allocation) => Number(record.plannedHours).toFixed(2) },
     { title: 'Horas Reais', key: 'actualHours', render: (_: unknown, record: Allocation) => Number(record.actualHours).toFixed(2) },
+    {
+      title: 'Avaliacao',
+      key: 'professionalEvaluation',
+      render: (_: unknown, record: Allocation) => (record.professionalEvaluation ? <Rate disabled value={record.professionalEvaluation} /> : '-'),
+    },
     { title: 'Custo Hora', key: 'hourlyCostSnapshot', render: (_: unknown, record: Allocation) => formatCurrencyBRL(record.hourlyCostSnapshot) },
     { title: 'Custo Real', key: 'actualCost', render: (_: unknown, record: Allocation) => formatCurrencyBRL(record.actualCost) },
     {
@@ -103,6 +109,7 @@ export function ProjectAllocationsPage() {
                 areaId: record.areaId,
                 plannedHours: Number(record.plannedHours),
                 actualHours: Number(record.actualHours),
+                professionalEvaluation: record.professionalEvaluation ?? undefined,
                 notes: record.notes ?? undefined,
               });
               setIsModalOpen(true);
@@ -183,6 +190,9 @@ export function ProjectAllocationsPage() {
           </Form.Item>
           <Form.Item label="Horas Reais" name="actualHours" rules={[{ required: true }]}>
             <InputNumber style={{ width: '100%' }} min={0} precision={2} />
+          </Form.Item>
+          <Form.Item label="Avaliacao do Profissional (1 a 5)" name="professionalEvaluation">
+            <Rate />
           </Form.Item>
           <Form.Item label="Observacoes" name="notes">
             <Input.TextArea rows={3} />

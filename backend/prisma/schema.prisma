@@ -109,6 +109,7 @@ model ProjectAllocation {
   hourlyCostSnapshot Decimal      @db.Decimal(12, 2)
   plannedCost        Decimal      @db.Decimal(14, 2)
   actualCost         Decimal      @db.Decimal(14, 2)
+  professionalEvaluation Int?
   notes              String?
   project            Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
   professional       Professional @relation(fields: [professionalId], references: [id])

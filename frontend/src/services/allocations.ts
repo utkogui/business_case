@@ -6,6 +6,7 @@ export type AllocationPayload = {
   areaId?: string;
   plannedHours: number;
   actualHours: number;
+  professionalEvaluation?: number | null;
   notes?: string | null;
 };
 

@@ -10,6 +10,7 @@ export const createAllocationSchema = z.object({
   areaId: z.string().cuid().optional(),
   plannedHours: z.number().nonnegative(),
   actualHours: z.number().nonnegative(),
+  professionalEvaluation: z.number().int().min(1).max(5).optional().nullable(),
   notes: z.string().optional().nullable(),
 });
 

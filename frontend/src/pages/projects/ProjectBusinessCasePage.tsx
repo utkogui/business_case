@@ -25,6 +25,12 @@ function percentageOrDash(value: number | null): string {
   return formatPercentage(value);
 }
 
+function costDeviationPercentage(planned: number, real: number): string {
+  if (planned <= 0) return '-';
+  const deviation = ((real - planned) / planned) * 100;
+  return formatPercentage(deviation);
+}
+
 export function ProjectBusinessCasePage() {
   const { projectId = '' } = useParams();
 
@@ -73,6 +79,12 @@ export function ProjectBusinessCasePage() {
   const professionalColumns = [
     { title: 'Profissional', dataIndex: 'professionalName', key: 'professionalName' },
     { title: 'Area', dataIndex: 'areaName', key: 'areaName' },
+    {
+      title: 'Avaliacao Media',
+      key: 'averageEvaluation',
+      render: (_: unknown, record: ProfessionalCostRow) =>
+        record.averageEvaluation === null ? '-' : `${record.averageEvaluation.toFixed(1)} / 5`,
+    },
     { title: 'Horas Planejadas', dataIndex: 'plannedHours', key: 'plannedHours' },
     { title: 'Horas Reais', dataIndex: 'actualHours', key: 'actualHours' },
     {
@@ -81,9 +93,21 @@ export function ProjectBusinessCasePage() {
       render: (_: unknown, record: ProfessionalCostRow) => formatCurrencyBRL(record.hourlyCostSnapshot),
     },
     {
+      title: 'Custo Planejado',
+      key: 'plannedCost',
+      render: (_: unknown, record: ProfessionalCostRow) => formatCurrencyBRL(record.plannedCost),
+    },
+    {
       title: 'Custo Real',
       key: 'actualCost',
       render: (_: unknown, record: ProfessionalCostRow) => formatCurrencyBRL(record.actualCost),
+    },
+    {
+      title: 'Desvio %',
+      key: 'costDeviation',
+      render: (_: unknown, record: ProfessionalCostRow) => (
+        <PercentageText value={record.plannedCost > 0 ? ((record.actualCost - record.plannedCost) / record.plannedCost) * 100 : null} withColor />
+      ),
     },
   ];
 
@@ -125,6 +149,9 @@ export function ProjectBusinessCasePage() {
           <KPICard title="Receita" value={data ? <CurrencyText value={data.kpis.revenue} strong /> : '-'} />
         </Col>
         <Col xs={24} md={12} xl={6}>
+          <KPICard title="Custo Planejado" value={data ? <CurrencyText value={data.kpis.totalPlannedCost} /> : '-'} />
+        </Col>
+        <Col xs={24} md={12} xl={6}>
           <KPICard title="Custo Total" value={data ? <CurrencyText value={data.kpis.totalRealCost} /> : '-'} />
         </Col>
         <Col xs={24} md={12} xl={6}>
@@ -144,6 +171,33 @@ export function ProjectBusinessCasePage() {
         </Col>
         <Col xs={24} md={12} xl={6}>
           <KPICard title="Desvio de Horas" value={data ? <PercentageText value={data.kpis.hoursDeviation} withColor /> : '-'} />
+        </Col>
+      </Row>
+
+      <Row gutter={[16, 16]}>
+        <Col xs={24} xl={8}>
+          <Card title="Comparativo de Custo">
+            <Space direction="vertical">
+              <Typography.Text>
+                Planejado: {data ? <CurrencyText value={data.kpis.totalPlannedCost} strong /> : '-'}
+              </Typography.Text>
+              <Typography.Text>
+                Real: {data ? <CurrencyText value={data.kpis.totalRealCost} strong /> : '-'}
+              </Typography.Text>
+              <Typography.Text>
+                Desvio: {data ? <CurrencyText value={data.kpis.totalRealCost - data.kpis.totalPlannedCost} /> : '-'} (
+                {data ? costDeviationPercentage(data.kpis.totalPlannedCost, data.kpis.totalRealCost) : '-'})
+              </Typography.Text>
+            </Space>
+          </Card>
+        </Col>
+        <Col xs={24} xl={16}>
+          <Card title="Contexto de Planejamento">
+            <Typography.Paragraph style={{ marginBottom: 0 }}>
+              O custo planejado e usado como baseline para analise de execucao financeira. Quando o custo real ultrapassa o planejado, o desvio
+              ajuda a identificar necessidade de ajuste de escopo, eficiencia operacional ou revisao de precificacao.
+            </Typography.Paragraph>
+          </Card>
         </Col>
       </Row>
 

@@ -67,6 +67,7 @@ export type Allocation = {
   hourlyCostSnapshot: string | number;
   plannedCost: string | number;
   actualCost: string | number;
+  professionalEvaluation: number | null;
   notes: string | null;
   area: Area;
   professional: Professional;

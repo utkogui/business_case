@@ -137,6 +137,9 @@ export function buildProjectBusinessCase(project: ProjectWithAllocations) {
       hourlyCostSnapshot: number;
       plannedCost: number;
       actualCost: number;
+      evaluationSum: number;
+      evaluationCount: number;
+      averageEvaluation: number | null;
     }
   >();
 
@@ -164,11 +167,19 @@ export function buildProjectBusinessCase(project: ProjectWithAllocations) {
       hourlyCostSnapshot: toNumber(allocation.hourlyCostSnapshot),
       plannedCost: 0,
       actualCost: 0,
+      evaluationSum: 0,
+      evaluationCount: 0,
+      averageEvaluation: null,
     };
     professionalBucket.plannedHours += toNumber(allocation.plannedHours);
     professionalBucket.actualHours += toNumber(allocation.actualHours);
     professionalBucket.plannedCost += plannedCost;
     professionalBucket.actualCost += actualCost;
+    if (allocation.professionalEvaluation !== null) {
+      professionalBucket.evaluationSum += allocation.professionalEvaluation;
+      professionalBucket.evaluationCount += 1;
+      professionalBucket.averageEvaluation = professionalBucket.evaluationSum / professionalBucket.evaluationCount;
+    }
     professionalCostMap.set(allocation.professionalId, professionalBucket);
   }
 
@@ -188,6 +199,7 @@ export function buildProjectBusinessCase(project: ProjectWithAllocations) {
       plannedCost: round2(item.plannedCost),
       actualCost: round2(item.actualCost),
       hourlyCostSnapshot: round2(item.hourlyCostSnapshot),
+      averageEvaluation: item.averageEvaluation === null ? null : round2(item.averageEvaluation),
     }))
     .sort((a, b) => b.actualCost - a.actualCost);
 
